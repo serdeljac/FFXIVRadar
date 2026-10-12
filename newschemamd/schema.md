@@ -1,7 +1,7 @@
 # FFXIV Radar — Database Schema (in progress)
 
-**Status:** locations and gathering items drafted as of 2026-10-11. Fishing, timers, weather and the
-other datasets are still to come. The schema is designed in DBML on dbdiagram.io and will run on
+**Status:** locations, gathering and fishing drafted as of 2026-10-11. Fishing can't be imported yet
+(see Open items). Timers, weather and the other datasets are still to come. The schema is designed in DBML on dbdiagram.io and will run on
 Postgres. Source data: `FFXIVRadarData.xlsx` at the repo root, one sheet per dataset.
 
 ---
@@ -12,6 +12,8 @@ Postgres. Source data: `FFXIVRadarData.xlsx` at the repo root, one sheet per dat
 - Every column that links to another table is named `<thing>_id` (`zone_id`, `area_id`).
 - A table that only links two others uses those two columns together as its key, with no `id`.
 - `default_order` is the display order and is unique within its table.
+- **IDs can still change for now.** Sheet IDs (`fish0001`, `mine1`, …) may be renumbered while the
+  data is being cleaned up. Nothing should rely on them until they're declared fixed.
 
 ---
 
@@ -27,6 +29,7 @@ Postgres. Source data: `FFXIVRadarData.xlsx` at the repo root, one sheet per dat
 | **`level` is the item's level** | The node's level (`node_level`) belongs to the node table, planned for later. |
 | **`category` holds the sheet's `group` column** (log / folklore / collect) | The node type (Regular / Unspoiled / Ephemeral / Legendary) becomes the node table's category, planned for later. |
 | **`job_main` enum values are `miner`, `botany`, `fishing`** | They match the spreadsheet. `job_sub` keeps `mining` for the miner's sub-job. |
+| **Fishing `bait` keeps the value `mooch`** (287 rows) | It stands for the in-game Mooch command, so it's real data, not a missing bait. Leave as is for now. |
 
 ---
 
@@ -123,6 +126,32 @@ Table gathering {
 
 Ref: expansions.id     < gathering.expansion_id    [update: cascade, delete: restrict]
 Ref: areas.id          < gathering.area_id         [update: cascade, delete: restrict]
+
+Table fishing {
+  id                varchar        [pk]
+  expansion_id      varchar        [not null]
+  point_id          varchar        [not null]
+  timer_id          varchar
+  name              varchar        [not null]
+  default_order     int            [not null, unique]
+  job               job_main       [not null]
+  job_sub           job_sub        [not null]
+  bait              varchar
+  tug               int
+  hookset           varchar
+  mooch             "varchar[]"
+  weather           "varchar[]"
+  weather_chain     "varchar[]"
+  notes             text
+  node_code         varchar
+  level             int            [not null]
+  stars             int            [not null, default: 0]
+  x                 decimal(3,1)
+  y                 decimal(3,1)
+}
+
+Ref: points.id         < fishing.point_id          [update: cascade, delete: restrict]
+Ref: expansions.id     < fishing.expansion_id      [update: cascade, delete: restrict]
 ```
 
 ---
@@ -177,6 +206,22 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 | `node_code`, `transx`, `transy`, `attribute` | — | Dropped on purpose. |
 | `no` | — | Not discussed yet. |
 
+### `fishing` sheet → `fishing`
+
+2,873 rows, one per fish at a location (fishing and spearfishing).
+
+| Sheet column | Table column | Notes |
+|---|---|---|
+| `ID`, `order`, `job`, `job_sub`, `name`, `level`, `stars`, `x`, `y`, `notes` | same names (`order` → `default_order`) | |
+| `expansion` | `expansion_id` | Convert the name to the expansion's ID. |
+| `area` | `point_id` | Must match a point in the `areas` sheet. 1,054 rows don't yet (see Open items). |
+| `time` | `timer_id` | Points to the `timer` sheet. Blank means no timer. |
+| `bait`, `tug`, `hookset` | same names | Blank in all 368 spearfishing rows. `bait` may be `mooch` (see Decisions). |
+| `mooch_name1`–`3` | `mooch` | In order. Every value is a fish name in the sheet. |
+| `weather1`–`3` | `weather` | In order. 22 weather names, spelled consistently. |
+| `weatherchain1`–`3` | `weather_chain` | In order. |
+| `node_code` | `node_code` | A formula built from the location name; one code per location. |
+
 ---
 
 ## Import rules
@@ -186,7 +231,9 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 - **`zones.type`: write `'world'` for blanks.** A default only applies when the column is left out
   of the insert. An empty string counts as a value.
 - **0/1 columns are booleans:** `issubarea` → `is_subarea`, `isshard` → `is_shard`.
-- **Expansion names become expansion IDs**, for zones and gathering alike.
+- **Expansion names become expansion IDs** for zones, gathering and fishing.
+- **Array columns are built from their numbered columns in order** (`mooch_name1`–`3` → `mooch`, and
+  so on). The sheet never fills a later slot while an earlier one is empty.
 
 ---
 
@@ -200,6 +247,9 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 | 2026-10-11 | `level` typos fixed on `logg246` and `logg247` (were 922). |
 | 2026-10-11 | Stray asterisks removed from three fishing locations: The Adventure, The Kobayashi Maru, and Kobayashi Maru's Northern Wake (spelled as the game does). 19 rows; their `node_code` formulas recalculated. |
 | 2026-10-11 | Leading space removed from the point `Saibai Cavern` (`area415`) in the areas sheet. |
+| 2026-10-11 | Fishing: blank `stars` set to 0 (129 rows); Silver Shark (`fish0148`) mooch `Fullmoon` + `Sardine` merged into `Fullmoon Sardine`; Catkiller's (`fish0998`) catching instructions moved from mooch to `notes`; bait `Leech (Bait)` / `Dragonfly (Bait)` renamed `Leech` / `Dragonfly` to match the game. |
+| 2026-10-11 | Fishing: added Grade 2 Skybuilders' Cloud Cutter at Blustery Cloudtop as `fish2804`. The rows after it were renumbered `fish2805`–`fish2873`. |
+| 2026-10-11 | Fishing rows whose location isn't a point in the areas sheet are highlighted: **light red** = matches nothing (714 rows), **light yellow** = matches an area but not a point (340 rows). |
 
 ---
 
@@ -212,8 +262,21 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
   start.
 - **Expansion icon codes** (`arr`, `hwd`, `sbd`, `sbs`, `ewr`, `dtl`): no column yet. One option is
   to use them as `expansions.id`.
-- **IDs:** the tables use text IDs. `architecture.md` says to key game data by the game's own IDs,
-  which isn't settled for these tables yet.
-- **Remaining datasets:** fishing (spots, bait, weather, mooch), weather rates, sightseeing, aether
+- **IDs:** the tables use text IDs, and they can still change (see Conventions). `architecture.md`
+  says to key game data by the game's own IDs, which isn't settled for these tables yet.
+- **Fishing locations (blocks the import):** `point_id` is required, but 1,054 rows have no matching
+  point. They're highlighted in the sheet. 44 location names are areas rather than points (yellow).
+  101 aren't in the areas sheet at all (red): sub-spots like the Loch Seld lakebeds, ocean fishing,
+  the Diadem and the Cloudtops. Also, 6 names are a point in two areas of the same zone (Yedlihmad,
+  Giantsgall Grounds, The Wakeful Torana, Pavana's Remorse, The Wellspring of Regret, Lethe), so a
+  name lookup can't pick one.
+- **Fishing data to check:**
+  - Silver Shark at Costa del Sol (`fish0158`) has bait `mooch` but no mooch fish since
+    `Fullmoon Sardine` was removed.
+  - 18 rows in The Lavender Beds and The Goblet have x or y = 0, which should probably load as NULL.
+  - 63 of the 70 Diadem and Cloudtop rows have no bait, tug or hookset.
+- **Fishing schema choices:** whether rows with no mooch or weather get NULL or an empty array
+  `{}`; whether to keep `node_code`, which describes the location rather than the fish.
+- **Remaining datasets:** weather rates (fishing weather links to them later), sightseeing, aether
   currents, Blue Mage, hunts, FATEs, aetherytes. Then names and translations, item page URLs, and
   user tables (see the end of `architecture.md`).
