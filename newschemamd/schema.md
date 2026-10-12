@@ -1,8 +1,9 @@
 # FFXIV Radar — Database Schema (in progress)
 
-**Status:** locations, gathering and fishing drafted as of 2026-10-11. Fishing can't be imported yet
-(see Open items). Timers, weather and the other datasets are still to come. The schema is designed in DBML on dbdiagram.io and will run on
-Postgres. Source data: `FFXIVRadarData.xlsx` at the repo root, one sheet per dataset.
+**Status:** locations, gathering, fishing and tomes drafted as of 2026-10-12. Fishing can't be
+imported yet, and tomes have no source sheet yet (see Open items). Timers, weather and the other
+datasets are still to come. The schema is designed in DBML on dbdiagram.io and will run on Postgres.
+Source data: `FFXIVRadarData.xlsx` at the repo root, one sheet per dataset.
 
 ---
 
@@ -30,6 +31,8 @@ Postgres. Source data: `FFXIVRadarData.xlsx` at the repo root, one sheet per dat
 | **`category` holds the sheet's `group` column** (log / folklore / collect) | The node type (Regular / Unspoiled / Ephemeral / Legendary) becomes the node table's category, planned for later. |
 | **`job_main` enum values are `miner`, `botany`, `fishing`** | They match the spreadsheet. `job_sub` keeps `mining` for the miner's sub-job. |
 | **Fishing `bait` keeps the value `mooch`** (287 rows) | It stands for the in-game Mooch command, so it's real data, not a missing bait. Leave as is for now. |
+| **Folklore tomes get their own `tomes` table**; gathering and fishing link to it with `tome_id` | The site will search for a tome and list its contents. One tome has many items, and the link sits on each gathering/fishing row (Stonehard Water and Potent Spice are in two tomes at different nodes). The game spells it "tome", so the sheet's `tomb` column maps to `tome_id`. |
+| **A tome has one expansion** | Every tome's items share a single expansion. |
 
 ---
 
@@ -105,9 +108,10 @@ Enum job_sub {
 
 Table gathering {
   id             varchar        [pk]
-  timer_id       varchar
   expansion_id   varchar        [not null]
   area_id        varchar        [not null]
+  timer_id       varchar
+  tome_id        varchar        [not null, default: "None"]
   name           varchar        [not null]
   default_order  int            [not null, unique]
   job            job_main       [not null]
@@ -116,7 +120,6 @@ Table gathering {
   is_shard       boolean        [not null, default: false]
   usage          varchar
   usage_info     text
-  tomb           varchar
   perception     int
   stars          int
   level          int            [not null]
@@ -132,6 +135,7 @@ Table fishing {
   expansion_id      varchar        [not null]
   point_id          varchar        [not null]
   timer_id          varchar
+  tome_id           varchar        [not null, default: "None"]
   name              varchar        [not null]
   default_order     int            [not null, unique]
   job               job_main       [not null]
@@ -152,6 +156,19 @@ Table fishing {
 
 Ref: points.id         < fishing.point_id          [update: cascade, delete: restrict]
 Ref: expansions.id     < fishing.expansion_id      [update: cascade, delete: restrict]
+
+Table tomes {
+  id            varchar       [pk]
+  expansion_id  varchar       [not null]
+  name          varchar       [not null]
+  level         int
+  cost          int
+  cost_type     varchar
+}
+
+Ref: tomes.id          < gathering.tome_id         [update: cascade, delete: restrict]
+Ref: tomes.id          < fishing.tome_id           [update: cascade, delete: restrict]
+Ref: expansions.id     < tomes.expansion_id        [update: cascade, delete: restrict]
 ```
 
 ---
@@ -199,7 +216,8 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 | `isshard` | `is_shard` | 0/1 → false/true. |
 | `expansion` | `expansion_id` | Convert the name to the expansion's ID. |
 | `area` | `area_id` | Every value matches an area in the `areas` sheet. |
-| `usage`, `usage_info`, `tomb`, `perception`, `stars`, `x`, `y` | same names | |
+| `usage`, `usage_info`, `perception`, `stars`, `x`, `y` | same names | |
+| `tomb` | `tome_id` | Convert the tome name to its ID. Blank means no tome (1,279 rows). The column header is misspelled; the values are right ("Tome of …"). |
 | `time` | `timer_id` | Points to the `timer` sheet. Blank means no timer. |
 | `level` | `level` | The item's level, 1–100. |
 | `node_name`, `node_level` | — | Moving to the node table (later). |
@@ -221,6 +239,12 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 | `weather1`–`3` | `weather` | In order. 22 weather names, spelled consistently. |
 | `weatherchain1`–`3` | `weather_chain` | In order. |
 | `node_code` | `node_code` | A formula built from the location name; one code per location. |
+| — | `tome_id` | The sheet has no tome column yet. |
+
+### `tomes` → `tomes`
+
+No sheet yet; a tomes CSV is planned. The 24 gathering tome names are in the gathering sheet's `tomb`
+column. `expansion_id`, `level`, `cost` and `cost_type` will come from the new CSV.
 
 ---
 
@@ -250,6 +274,8 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 | 2026-10-11 | Fishing: blank `stars` set to 0 (129 rows); Silver Shark (`fish0148`) mooch `Fullmoon` + `Sardine` merged into `Fullmoon Sardine`; Catkiller's (`fish0998`) catching instructions moved from mooch to `notes`; bait `Leech (Bait)` / `Dragonfly (Bait)` renamed `Leech` / `Dragonfly` to match the game. |
 | 2026-10-11 | Fishing: added Grade 2 Skybuilders' Cloud Cutter at Blustery Cloudtop as `fish2804`. The rows after it were renumbered `fish2805`–`fish2873`. |
 | 2026-10-11 | Fishing rows whose location isn't a point in the areas sheet are highlighted: **light red** = matches nothing (714 rows), **light yellow** = matches an area but not a point (340 rows). |
+| 2026-10-11 | Fishing: Silver Shark at Costa del Sol (`fish0158`) has its mooch fish `Fullmoon Sardine` back. A note about the highlight colours was added to the workbook. |
+| 2026-10-12 | Gathering: the 5 items in *Tome of Botanical Folklore - Norvrandt* marked Stormblood (`logg294`–`logg298`) set to Shadowbringers, so every tome has one expansion. |
 
 ---
 
@@ -271,12 +297,18 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
   Giantsgall Grounds, The Wakeful Torana, Pavana's Remorse, The Wellspring of Regret, Lethe), so a
   name lookup can't pick one.
 - **Fishing data to check:**
-  - Silver Shark at Costa del Sol (`fish0158`) has bait `mooch` but no mooch fish since
-    `Fullmoon Sardine` was removed.
   - 18 rows in The Lavender Beds and The Goblet have x or y = 0, which should probably load as NULL.
   - 63 of the 70 Diadem and Cloudtop rows have no bait, tug or hookset.
 - **Fishing schema choices:** whether rows with no mooch or weather get NULL or an empty array
   `{}`; whether to keep `node_code`, which describes the location rather than the fish.
+- **Tomes:**
+  - `tome_id` is `not null` with default `"None"` on gathering and fishing. As written, every row
+    without a tome (1,279 gathering rows, all fishing rows for now) fails the link unless a tome
+    with the ID "None" exists. The alternative is a nullable `tome_id`, where NULL means no tome,
+    as with `timer_id`. Text defaults also need single quotes once exported to SQL.
+  - Source data: a tomes CSV, still to be created. The fishing sheet has no tome data yet.
+  - Possible additions: `unique` on `name`, a `default_order` for the search list, and a `job`
+    column for filtering.
 - **Remaining datasets:** weather rates (fishing weather links to them later), sightseeing, aether
   currents, Blue Mage, hunts, FATEs, aetherytes. Then names and translations, item page URLs, and
   user tables (see the end of `architecture.md`).
