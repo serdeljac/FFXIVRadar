@@ -198,6 +198,8 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 | 2026-10-11 | `miner` and `botany` sheets merged into one `gathering` sheet. |
 | 2026-10-11 | Gathering `order` renumbered 1–1,399. The old sheets reused 338–341. |
 | 2026-10-11 | `level` typos fixed on `logg246` and `logg247` (were 922). |
+| 2026-10-11 | Stray asterisks removed from three fishing locations: The Adventure, The Kobayashi Maru, and Kobayashi Maru's Northern Wake (spelled as the game does). 19 rows; their `node_code` formulas recalculated. |
+| 2026-10-11 | Leading space removed from the point `Saibai Cavern` (`area415`) in the areas sheet. |
 
 ---
 
