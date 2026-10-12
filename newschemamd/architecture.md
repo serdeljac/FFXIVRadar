@@ -220,7 +220,7 @@ packages/db/           Drizzle schema, migrations, queries, seed files, export/a
 
 ## For the schema session
 
-The open design work, to be done together:
+Progress and decisions so far are in `schema.md`. The open design work, to be done together:
 
 1. **Tables for every dataset:** zones and areas, weather rates, timers, mining and botany,
    fishing (bait, weather, weather transitions), sightseeing, aether currents, Blue Mage, elite
