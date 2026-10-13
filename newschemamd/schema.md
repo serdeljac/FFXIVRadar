@@ -1,9 +1,10 @@
 # FFXIV Radar — Database Schema (in progress)
 
-**Status:** locations, gathering, fishing and tomes drafted as of 2026-10-12. Fishing can't be
-imported yet, and tomes have no source sheet yet (see Open items). Timers, weather and the other
-datasets are still to come. The schema is designed in DBML on dbdiagram.io and will run on Postgres.
-Source data: `FFXIVRadarData.xlsx` at the repo root, one sheet per dataset.
+**Status:** locations, gathering, fishing, tomes, vistas, aetherytes and timers drafted as of
+2026-10-12. Fishing can't be imported yet, tomes have no source sheet yet, and the vista and timer
+data still need fixing (see Open items). Weather rates and the other datasets are still to come. The
+schema is designed in DBML on dbdiagram.io and will run on Postgres. Source data:
+`FFXIVRadarData.xlsx` at the repo root, one sheet per dataset.
 
 ---
 
@@ -33,13 +34,17 @@ Source data: `FFXIVRadarData.xlsx` at the repo root, one sheet per dataset.
 | **Fishing `bait` keeps the value `mooch`** (287 rows) | It stands for the in-game Mooch command, so it's real data, not a missing bait. Leave as is for now. |
 | **Folklore tomes get their own `tomes` table**; gathering and fishing link to it with `tome_id` | The site will search for a tome and list its contents. One tome has many items, and the link sits on each gathering/fishing row (Stonehard Water and Potent Spice are in two tomes at different nodes). The game spells it "tome", so the sheet's `tomb` column maps to `tome_id`. |
 | **A tome has one expansion** | Every tome's items share a single expansion. |
+| **Sightseeing is stored as `vistas`**; `group_order` is a vista's number within its expansion's log | The sheet's `set` column is dropped: for ARR, set 1 is #1–20 and set 2 is #21–80, which the number already shows. |
+| **An aetheryte's name comes from the sheet's `area` column** and doesn't link to the `areas` table | Aetheryte names (Summerfold Farms, Moraby Drydocks, Wineport, …) aren't area names; only 37 of the 107 happen to match one. |
+| **Aetheryte `point` stays as text** | It's only used in a special case (3 of the 107 aetherytes). |
+| **Timers stay as they are for now** | The timer data will be fixed later. |
 
 ---
 
 ## Current schema (DBML)
 
 ```dbml
-//LOCATIONS
+// LOCATIONS
 
 Table expansions {
   id                   varchar  [pk]
@@ -83,13 +88,13 @@ Table points {
   default_order   int            [not null, unique]
 }
 
-Ref: expansions.id     < zones.expansion_id    [update: cascade, delete: restrict]
-Ref: regions.id        < zones.region_id       [update: cascade, delete: restrict]
-Ref: zones.id          < areas.zone_id         [update: cascade, delete: restrict]
-Ref: areas.id          < points.area_id        [update: cascade, delete: restrict]
+Ref: expansions.id     < zones.expansion_id        [update: cascade, delete: restrict]
+Ref: regions.id        < zones.region_id           [update: cascade, delete: restrict]
+Ref: zones.id          < areas.zone_id             [update: cascade, delete: restrict]
+Ref: areas.id          < points.area_id            [update: cascade, delete: restrict]
 
 
-//GATHERING & FISHING
+// GATHERING & FISHING
 
 Enum job_main {
   miner
@@ -110,7 +115,7 @@ Table gathering {
   id             varchar        [pk]
   expansion_id   varchar        [not null]
   area_id        varchar        [not null]
-  timer_id       varchar
+  timer_id       varchar        [not null, default: "None"]
   tome_id        varchar        [not null, default: "None"]
   name           varchar        [not null]
   default_order  int            [not null, unique]
@@ -134,7 +139,7 @@ Table fishing {
   id                varchar        [pk]
   expansion_id      varchar        [not null]
   point_id          varchar        [not null]
-  timer_id          varchar
+  timer_id          varchar        [not null, default: "None"]
   tome_id           varchar        [not null, default: "None"]
   name              varchar        [not null]
   default_order     int            [not null, unique]
@@ -160,7 +165,9 @@ Ref: expansions.id     < fishing.expansion_id      [update: cascade, delete: res
 Table tomes {
   id            varchar       [pk]
   expansion_id  varchar       [not null]
-  name          varchar       [not null]
+  name          varchar       [not null, unique]
+  default_order int           [not null, unique]
+  job           job_main      [not null]
   level         int
   cost          int
   cost_type     varchar
@@ -169,6 +176,68 @@ Table tomes {
 Ref: tomes.id          < gathering.tome_id         [update: cascade, delete: restrict]
 Ref: tomes.id          < fishing.tome_id           [update: cascade, delete: restrict]
 Ref: expansions.id     < tomes.expansion_id        [update: cascade, delete: restrict]
+
+// VISTAS
+
+Enum vista_type {
+  any
+  jumppuzzle
+  mount
+  underwater
+}
+
+Table vistas {
+  id                varchar         [pk]
+  expansion_id      varchar         [not null]
+  zone_id           varchar         [not null]
+  timer_id          varchar         [not null, default: "None"]
+  default_order     int             [not null, unique]
+  group_order       int             [not null]
+  type              vista_type      [not null, default: "any"]
+  name              varchar         [not null]
+  weather           "varchar[]"
+  emote             varchar         [not null]
+  point             varchar
+  notes             varchar
+  node_code         varchar
+  x                 decimal(3,1)
+  y                 decimal(3,1)
+}
+
+Ref: expansions.id     < vistas.expansion_id       [update: cascade, delete: restrict]
+Ref: zones.id          < vistas.zone_id            [update: cascade, delete: restrict]
+
+// AETHERYTE
+
+Table aetheryte {
+  id                varchar         [pk]
+  zone_id           varchar         [not null]
+  default_order     int             [not null, unique]
+  node_code         varchar
+  point             varchar
+  x                 decimal(3,1)
+  y                 decimal(3,1)
+}
+
+Ref: zones.id          < aetheryte.zone_id         [update: cascade, delete: restrict]
+
+// TIMER
+
+Table timer {
+  id                varchar         [pk]
+  default_order     int             [not null, unique]
+  active_sets       int             [not null, default: 1]
+  start_set_1       int             [not null]
+  end_set_1         int             [not null]
+  start_set_2       int
+  end_set_2         int
+  start_set_3       int
+  end_set_3         int
+}
+
+Ref: timer.id          < gathering.timer_id        [update: cascade, delete: restrict]
+Ref: timer.id          < fishing.timer_id          [update: cascade, delete: restrict]
+Ref: timer.id          < vistas.timer_id           [update: cascade, delete: restrict]
 ```
 
 ---
@@ -217,8 +286,8 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 | `expansion` | `expansion_id` | Convert the name to the expansion's ID. |
 | `area` | `area_id` | Every value matches an area in the `areas` sheet. |
 | `usage`, `usage_info`, `perception`, `stars`, `x`, `y` | same names | |
-| `tomb` | `tome_id` | Convert the tome name to its ID. Blank means no tome (1,279 rows). The column header is misspelled; the values are right ("Tome of …"). |
-| `time` | `timer_id` | Points to the `timer` sheet. Blank means no timer. |
+| `tomb` | `tome_id` | Convert the tome name to its ID. Blank in 1,279 rows. The column header is misspelled; the values are right ("Tome of …"). |
+| `time` | `timer_id` | Points to the `timer` sheet. Blank in 880 rows. |
 | `level` | `level` | The item's level, 1–100. |
 | `node_name`, `node_level` | — | Moving to the node table (later). |
 | `node_code`, `transx`, `transy`, `attribute` | — | Dropped on purpose. |
@@ -233,7 +302,7 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 | `ID`, `order`, `job`, `job_sub`, `name`, `level`, `stars`, `x`, `y`, `notes` | same names (`order` → `default_order`) | |
 | `expansion` | `expansion_id` | Convert the name to the expansion's ID. |
 | `area` | `point_id` | Must match a point in the `areas` sheet. 1,054 rows don't yet (see Open items). |
-| `time` | `timer_id` | Points to the `timer` sheet. Blank means no timer. |
+| `time` | `timer_id` | Points to the `timer` sheet. Blank in 2,512 rows. |
 | `bait`, `tug`, `hookset` | same names | Blank in all 368 spearfishing rows. `bait` may be `mooch` (see Decisions). |
 | `mooch_name1`–`3` | `mooch` | In order. Every value is a fish name in the sheet. |
 | `weather1`–`3` | `weather` | In order. 22 weather names, spelled consistently. |
@@ -246,18 +315,64 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 No sheet yet; a tomes CSV is planned. The 24 gathering tome names are in the gathering sheet's `tomb`
 column. `expansion_id`, `level`, `cost` and `cost_type` will come from the new CSV.
 
+### `sightseeing` sheet → `vistas`
+
+340 rows. The vista data still needs additions and fixes (see Open items).
+
+| Sheet column | Table column | Notes |
+|---|---|---|
+| `ID`, `name`, `emote`, `notes`, `node_code`, `x`, `y` | same names | |
+| `order` | `default_order` | |
+| `expansion` | `expansion_id` | Convert the name to the expansion's ID. Always the same as the zone's expansion. |
+| `zone` | `zone_id` | Every value matches a zone. |
+| `time` | `timer_id` | Points to the `timer` sheet. Blank in 258 rows. |
+| `no` | `group_order` | The vista's number within its expansion's log (ARR 1–80, Heavensward 1–62, …). |
+| `type` | `type` | Blank in 305 rows → `'any'`. Two rows spell it `jump puzzle` (see Open items). |
+| `weather1`–`2` | `weather` | In order. 13 weather names, all also used in fishing. |
+| `point` | `point` | Text. Filled in 6 rows. |
+| `set` | — | Dropped (see Decisions). |
+| `mount` | — | Not mapped yet (see Open items). |
+| `transx`, `transy` | — | Dropped, as in gathering. |
+
+### `aetheryte` sheet → `aetheryte`
+
+107 rows.
+
+| Sheet column | Table column | Notes |
+|---|---|---|
+| `ID`, `node_code`, `x`, `y` | same names | |
+| `no` | `default_order` | |
+| `zone` | `zone_id` | Every value matches a zone. |
+| `area` | `name` | The aetheryte's name. Not a link to `areas`. The table needs a `name` column (see Open items). |
+| `point` | `point` | Text, for a special case. Filled in 3 rows. |
+| `transx`, `transy` | — | Dropped, as in gathering. |
+
+### `timer` sheet → `timer`
+
+135 rows. Kept as is for now; the data will be fixed later.
+
+| Sheet column | Table column | Notes |
+|---|---|---|
+| `ID` (`timer1`…`timer135`) | `id`, `default_order` | The number gives the order. |
+| `sets` | `active_sets` | 1, 2 or 3. |
+| `start0`/`end0`, `start1`/`end1`, `start2`/`end2` | `start_set_1`/`end_set_1`, `…_2`, `…_3` | The sheet counts windows from 0, the table from 1. Hours 0–24. |
+
 ---
 
 ## Import rules
 
-- **Blank cells load as NULL, never as empty text.** `timer_id` is blank in 880 rows, and `''` would
-  fail the link to timers. `perception` is blank in 1,345 rows, and `''` isn't a number.
-- **`zones.type`: write `'world'` for blanks.** A default only applies when the column is left out
-  of the insert. An empty string counts as a value.
+- **Blank cells load as NULL, never as empty text.** `perception` is blank in 1,345 rows, and `''`
+  isn't a number. For `timer_id` and `tome_id`, the schema currently uses a `"None"` default instead
+  (see Open items).
+- **A default only applies when the column is left out of the insert.** An empty string counts as a
+  value. So write `'world'` for blank `zones.type` and `'any'` for blank `vistas.type`.
 - **0/1 columns are booleans:** `issubarea` → `is_subarea`, `isshard` → `is_shard`.
-- **Expansion names become expansion IDs** for zones, gathering and fishing.
+- **Expansion names become expansion IDs** for zones, gathering, fishing and vistas.
 - **Array columns are built from their numbered columns in order** (`mooch_name1`–`3` → `mooch`, and
-  so on). The sheet never fills a later slot while an earlier one is empty.
+  so on). The sheets never fill a later slot while an earlier one is empty.
+- **Unused timer windows load as NULL.** The timer sheet fills them with 0–0, but 0 is a real hour
+  (midnight). Every window beyond `sets` is exactly 0–0, and no window in use starts and ends at the
+  same hour.
 
 ---
 
@@ -281,11 +396,16 @@ column. `expansion_id`, `level`, `cost` and `cost_type` will come from the new C
 
 ## Open items
 
+- **`"None"` defaults on `timer_id` and `tome_id`:** all three `timer_id` columns and both `tome_id`
+  columns are `not null` with the default `"None"`. Every row without a timer or tome then needs a
+  row with the ID "None" in `timer` or `tomes`, or the import rejects it. That's 880 gathering,
+  2,512 fishing and 258 vista rows without a timer, and 1,279 gathering rows (plus all fishing rows
+  for now) without a tome. A "None" timer row would also need a window 1 (`start_set_1`/`end_set_1`
+  are `not null`), which the countdown would treat as real. The alternative is nullable columns,
+  where NULL means none, which is how blank times were first decided. Text defaults also need
+  single quotes: `'None'`.
 - **Node table:** holds the node type (`node_name`) as its category and the node's level
   (`node_level`).
-- **Timers table:** the target of `gathering.timer_id`. The `timer` sheet has 135 timers with up to
-  3 windows each. Some windows wrap past midnight (e.g. 18 → 2), so the end can be smaller than the
-  start.
 - **Expansion icon codes** (`arr`, `hwd`, `sbd`, `sbs`, `ewr`, `dtl`): no column yet. One option is
   to use them as `expansions.id`.
 - **IDs:** the tables use text IDs, and they can still change (see Conventions). `architecture.md`
@@ -301,14 +421,22 @@ column. `expansion_id`, `level`, `cost` and `cost_type` will come from the new C
   - 63 of the 70 Diadem and Cloudtop rows have no bait, tug or hookset.
 - **Fishing schema choices:** whether rows with no mooch or weather get NULL or an empty array
   `{}`; whether to keep `node_code`, which describes the location rather than the fish.
-- **Tomes:**
-  - `tome_id` is `not null` with default `"None"` on gathering and fishing. As written, every row
-    without a tome (1,279 gathering rows, all fishing rows for now) fails the link unless a tome
-    with the ID "None" exists. The alternative is a nullable `tome_id`, where NULL means no tome,
-    as with `timer_id`. Text defaults also need single quotes once exported to SQL.
-  - Source data: a tomes CSV, still to be created. The fishing sheet has no tome data yet.
-  - Possible additions: `unique` on `name`, a `default_order` for the search list, and a `job`
-    column for filtering.
-- **Remaining datasets:** weather rates (fishing weather links to them later), sightseeing, aether
-  currents, Blue Mage, hunts, FATEs, aetherytes. Then names and translations, item page URLs, and
-  user tables (see the end of `architecture.md`).
+- **Tomes:** source data comes from a tomes CSV, still to be created. The fishing sheet has no tome
+  data yet.
+- **Vistas:**
+  - The data needs additions and fixes.
+  - `type`: two rows spell it `jump puzzle` (`sightsee262` Radz-at-Han, `sightsee299` Tuliyollal);
+    the enum only accepts `jumppuzzle`. The default needs single quotes: `'any'`.
+  - A unique pair `(expansion_id, group_order)` would stop two vistas in one expansion getting the
+    same number. The current data never repeats one.
+  - The sheet's `mount` column (0/1, set on 146 rows) isn't mapped. It isn't the same as type
+    `mount`, which is 26 rows.
+- **Aetheryte:** the table needs a `name` column for the sheet's `area` values.
+- **Timers (data to fix later):** 29 timers wrap past midnight (e.g. `timer35` 18 → 2), so there's no
+  start-before-end rule. `active_sets` repeats what the filled windows already show. Three pairs
+  are identical (`timer34`/`timer99`, `timer35`/`timer103`, `timer36`/`timer105`), and 3 timers
+  aren't used by any sheet.
+- **Table names:** `timer` and `aetheryte` are singular; the other tables are plural.
+- **Remaining datasets:** weather rates (fishing and vista weather link to them later), aether
+  currents, Blue Mage, hunts and hunt points, FATEs, aetherial reduction. Then names and
+  translations, item page URLs, and user tables (see the end of `architecture.md`).
