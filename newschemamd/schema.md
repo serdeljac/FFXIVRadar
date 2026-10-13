@@ -1,9 +1,9 @@
 # FFXIV Radar — Database Schema (in progress)
 
 **Status:** locations, gathering, fishing, tomes, vistas, aetherytes, timers, aetherial reduction
-and elite hunts drafted as of 2026-10-13. Aetherytes and elite hunts match their sheets with no
-conflicts. Fishing can't be imported yet, tomes have no source sheet, the vista and timer data still
-need fixing, and the aetherial table has two schema problems (see Open items). Weather rates and the
+and elite hunts drafted as of 2026-10-13. Aetherytes, aetherial reduction and elite hunts match
+their sheets with no conflicts. Fishing can't be imported yet, tomes have no source sheet, and the
+vista and timer data still need fixing (see Open items). Weather rates and the
 other datasets are still to come. The schema is designed in DBML on dbdiagram.io and will run on
 Postgres. Source data: `FFXIVRadarData.xlsx` at the repo root, one sheet per dataset.
 
@@ -38,6 +38,8 @@ Postgres. Source data: `FFXIVRadarData.xlsx` at the repo root, one sheet per dat
 | **Sightseeing is stored as `vistas`**; `group_order` is a vista's number within its expansion's log | The sheet's `set` column is dropped: for ARR, set 1 is #1–20 and set 2 is #21–80, which the number already shows. |
 | **Aetherytes link to their zone only; the name is plain text** | 70 of the 107 aetheryte names aren't areas in the areas sheet (Wineport, Horizon, Tailfeather, …), so a link to `areas` wouldn't work. The zone is all the site needs. |
 | **Timers stay as they are for now** | The timer data will be fixed later. |
+| **Gathering and fishing rows link to aetherial reduction with `aetherial_id`** (nullable) | The same pattern as tomes. One aetherial item has many rows: a gathering item is at 1–5 nodes, a fish at 1–2 spots. `gathering.name` can't be the link target because it repeats. |
+| **Aetherial stores no job, level or stars** | The job follows from the linked rows: no aetherial name appears in both gathering and fishing. The sheet's `level` and `stars` are ignored. |
 | **Hunt ranks are an enum, `hunt_ranks`** (B1, B2, A1, A2, S1, SS) | Exactly the six ranks the sheet uses, so a typo is rejected at import. |
 | **A hunt has one rank; a hunt spawn point lists the ranks that can spawn there** (an array) | A hunt's spawn points are the points in its zone whose ranks include its rank, so the two tables are matched by zone and rank, not by a link. A link can't start from an array, and a rank isn't unique (47 hunts are A1). In the sheets, each zone has exactly one hunt per rank, and every hunt has at least one spawn point. |
 
@@ -119,6 +121,7 @@ Table gathering {
   area_id        varchar        [not null]
   timer_id       varchar        [not null, default: "None"]
   tome_id        varchar        [not null, default: "None"]
+  aetherial_id   varchar
   name           varchar        [not null]
   default_order  int            [not null, unique]
   job            job_main       [not null]
@@ -143,6 +146,7 @@ Table fishing {
   point_id          varchar        [not null]
   timer_id          varchar        [not null, default: "None"]
   tome_id           varchar        [not null, default: "None"]
+  aetherial_id      varchar
   name              varchar        [not null]
   default_order     int            [not null, unique]
   job               job_main       [not null]
@@ -245,16 +249,16 @@ Ref: timer.id          < vistas.timer_id           [update: cascade, delete: res
 
 Table aetherial {
   id                varchar         [pk]
-  name              varchar         [pk]
+  name              varchar         [not null, unique]
   expansion_id      varchar         [not null]
   default_order     int             [not null, unique]
-  origin_job        job_main        [not null]
   primary_extract   varchar
   secondary_extract "varchar[]"
 }
 
-Ref: expansions.id     < aetherial.expansion_id    [update: cascade, delete: restrict]
-Ref: gathering.name    > aetherial.name            [update: cascade, delete: restrict]
+Ref: aetherial.id      < gathering.aetherial_id    [update: cascade, delete: restrict]
+Ref: aetherial.id      < fishing.aetherial_id      [update: cascade, delete: restrict]
+Ref: aetherial.expansion_id > expansions.id        [update: cascade, delete: restrict]
 
 // ELITE HUNTS
 
@@ -345,6 +349,7 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 | `usage`, `usage_info`, `perception`, `stars`, `x`, `y` | same names | |
 | `tomb` | `tome_id` | Convert the tome name to its ID. Blank in 1,279 rows. The column header is misspelled; the values are right ("Tome of …"). |
 | `time` | `timer_id` | Points to the `timer` sheet. Blank in 880 rows. |
+| — | `aetherial_id` | Filled at import by matching `name` to the aetherial sheet: 90 rows (exactly the rows with usage `aetherial`). |
 | `level` | `level` | The item's level, 1–100. |
 | `node_name`, `node_level` | — | Moving to the node table (later). |
 | `node_code`, `transx`, `transy`, `attribute` | — | Dropped on purpose. |
@@ -366,6 +371,7 @@ The sheet merges the old `miner` and `botany` sheets: 1,399 rows, one per item a
 | `weatherchain1`–`3` | `weather_chain` | In order. |
 | `node_code` | `node_code` | A formula built from the location name; one code per location. Never blank. |
 | — | `tome_id` | The sheet has no tome column yet. |
+| — | `aetherial_id` | Filled at import by matching `name` to the aetherial sheet: 30 rows. |
 
 ### `tomes` → `tomes`
 
@@ -415,17 +421,16 @@ column. `expansion_id`, `level`, `cost` and `cost_type` will come from the new C
 
 ### `aetherial` sheet → `aetherial`
 
-84 rows: 28 each for miner, botany and fishing items.
+84 rows: 28 each for miner, botany and fishing items. No conflicts with the table.
 
 | Sheet column | Table column | Notes |
 |---|---|---|
-| `ID`, `name` | same names | All 84 names are unique. 56 match gathering items and 28 match fish, exactly. |
+| `ID`, `name` | same names | All 84 names are unique. 56 match gathering items and 28 match fish, exactly, and none is in both. |
 | `no` | `default_order` | |
-| `expansion` | `expansion_id` | Convert the name to the expansion's ID. |
-| `job` | `origin_job` | miner / botany / fishing. |
-| `result1` | `primary_extract` | The aethersand. |
+| `expansion` | `expansion_id` | Convert the name to the expansion's ID. Always the same as the linked rows' expansion. |
+| `result1` | `primary_extract` | The aethersand. Never blank. |
 | `result2`–`3` | `secondary_extract` | In order: the crystal, then the cluster. Never blank. |
-| `level`, `stars` | — | Not in the table (see Open items). |
+| `job`, `level`, `stars` | — | Not stored (see Decisions). |
 
 ### `hunts` sheet → `elite_hunts`
 
@@ -468,6 +473,8 @@ column. `expansion_id`, `level`, `cost` and `cost_type` will come from the new C
 - **Array columns are built from their numbered columns in order** (`mooch_name1`–`3` → `mooch`,
   `rank1`–`rank5` → `rank_ranges`, and so on). The sheets never fill a later slot while an earlier
   one is empty.
+- **`aetherial_id` is filled by name.** Each gathering or fishing row whose `name` matches an aetherial
+  item gets that item's ID; every other row stays NULL.
 - **Enum columns must match exactly.** `hunt_ranks`, `vista_type`, `job_main` and `job_sub` reject
   any other spelling.
 - **Unused timer windows load as NULL.** The timer sheet fills them with 0–0, but 0 is a real hour
@@ -542,15 +549,8 @@ column. `expansion_id`, `level`, `cost` and `cost_type` will come from the new C
     `mount`, which is 26 rows.
 - **Aetheryte:** the sheet's `point` column (3 rows) isn't in the table, so it won't be imported.
   Confirm that's intended.
-- **Aetherial (two schema problems):**
-  - Two `[pk]` columns (`id`, `name`) make a combined key. `id` alone is unique; `name` would be
-    `[not null, unique]`.
-  - `Ref: gathering.name > aetherial.name` requires every gathering row's name to exist in
-    `aetherial`, so the 1,309 gathering rows that can't be reduced would be rejected. It can't be
-    turned around either: a link must point at a unique column, `gathering.name` repeats (an item
-    can be at up to 5 nodes), and 28 aetherial items are fish. The names match exactly, so the app
-    can look items up by name; or add a nullable `aetherial_id` to `gathering` and `fishing`.
-  - The sheet's `level` and `stars` columns aren't in the table.
+- **Aetherial:** `gathering.usage = 'aetherial'` marks exactly the 90 rows that get an
+  `aetherial_id`, so the two say the same thing and could drift apart later.
 - **Elite hunts:** optional `indexes { (zone_id, rank_id) [unique] }` on `elite_hunts`. The sheet
   already has exactly one hunt per zone and rank. `respawn_condition` and the other conditions are
   text; store minimum and maximum hours as numbers if the site ever counts down respawns.
