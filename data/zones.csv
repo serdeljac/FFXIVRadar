@@ -1,0 +1,73 @@
+﻿id,name,default_order,expansion_id,region_id,mapcode,mapsize,type
+z-limsa-lominsa-upper-decks,Limsa Lominsa Upper Decks,1,arr,r-la-noscea,limsaLominsa,21.4,town
+z-limsa-lominsa-lower-decks,Limsa Lominsa Lower Decks,2,arr,r-la-noscea,limsaLominsa,21.4,town
+z-mist,Mist,3,arr,r-la-noscea,mist,21.4,house
+z-middle-la-noscea,Middle La Noscea,4,arr,r-la-noscea,middleLaNoscea,41.9,world
+z-lower-la-noscea,Lower La Noscea,5,arr,r-la-noscea,lowerLaNoscea,41.9,world
+z-eastern-la-noscea,Eastern La Noscea,6,arr,r-la-noscea,easternLaNoscea,41.9,world
+z-western-la-noscea,Western La Noscea,7,arr,r-la-noscea,westernLaNoscea,41.9,world
+z-upper-la-noscea,Upper La Noscea,8,arr,r-la-noscea,upperLaNoscea,41.9,world
+z-outer-la-noscea,Outer La Noscea,9,arr,r-la-noscea,outerLaNoscea,41.9,world
+z-wolves-den-pier,Wolves' Den Pier,10,arr,r-la-noscea,wolvesDenPier,11.2,side
+z-unnamed-island,Unnamed Island,11,arr,r-la-noscea,lowerLaNoscea,41.9,side
+z-new-gridania,New Gridania,12,arr,r-the-black-shroud,gridania,21.4,town
+z-old-gridania,Old Gridania,13,arr,r-the-black-shroud,gridania,21.4,town
+z-lavender-beds,Lavender Beds,14,arr,r-the-black-shroud,theLavenderBeds,21.4,house
+z-central-shroud,Central Shroud,15,arr,r-the-black-shroud,centralShroud,41.9,world
+z-east-shroud,East Shroud,16,arr,r-the-black-shroud,eastShroud,41.9,world
+z-south-shroud,South Shroud,17,arr,r-the-black-shroud,southShroud,41.9,world
+z-north-shroud,North Shroud,18,arr,r-the-black-shroud,northShroud,41.9,world
+z-uldah-steps-of-nald,Ul'dah - Steps of Nald,19,arr,r-thanalan,uldah,21.4,town
+z-uldah-steps-of-thal,Ul'dah - Steps of Thal,20,arr,r-thanalan,uldah,21.4,town
+z-the-goblet,The Goblet,21,arr,r-thanalan,theGoblet,21.4,house
+z-western-thanalan,Western Thanalan,22,arr,r-thanalan,westernThanalan,41.9,world
+z-eastern-thanalan,Eastern Thanalan,23,arr,r-thanalan,easternThanalan,41.9,world
+z-central-thanalan,Central Thanalan,24,arr,r-thanalan,centralThanalan,41.9,world
+z-southern-thanalan,Southern Thanalan,25,arr,r-thanalan,southernThanalan,41.9,world
+z-northern-thanalan,Northern Thanalan,26,arr,r-thanalan,northernThanalan,41.9,world
+z-the-gold-saucer,The Gold Saucer,27,arr,r-thanalan,theGoldSaucer,11.2,side
+z-coerthas-central-highlands,Coerthas Central Highlands,28,arr,r-coerthas,coerthasCentralHighlands,41.9,world
+z-mor-dhona,Mor Dhona,29,arr,r-mor-dhona,morDhona,41.9,world
+z-foundation,Foundation,30,hwd,r-coerthas,ishgard,21.4,town
+z-idyllshire,Idyllshire,31,hwd,r-dravania,idyllshire,11.2,house
+z-coerthas-western-highlands,Coerthas Western Highlands,32,hwd,r-coerthas,coerthasWesternHighlands,44.1,world
+z-the-sea-of-clouds,The Sea of Clouds,33,hwd,r-abalathias-spine,theSeaOfClouds,44.1,world
+z-azys-lla,Azys Lla,34,hwd,r-abalathias-spine,azysLla,44.1,world
+z-the-dravanian-forelands,The Dravanian Forelands,35,hwd,r-dravania,theDravanianForelands,44.1,world
+z-the-dravanian-hinterlands,The Dravanian Hinterlands,36,hwd,r-dravania,theDravanianHinterlands,44.1,world
+z-the-churning-mists,The Churning Mists,37,hwd,r-dravania,theChurningMists,44.1,world
+z-kugane,Kugane,38,sbd,r-hingashi,kugane,21.4,town
+z-rhalgrs-reach,Rhalgr's Reach,39,sbd,r-gyr-abania,rhalgrsReach,21.4,town
+z-shirogane,Shirogane,40,sbd,r-hingashi,shirogane,21.4,house
+z-the-doman-enclave,The Doman Enclave,41,sbd,r-othard,yanxia,11.2,side
+z-the-fringes,The Fringes,42,sbd,r-gyr-abania,theFringes,41.9,world
+z-the-peaks,The Peaks,43,sbd,r-gyr-abania,thePeaks,41.9,world
+z-the-lochs,The Lochs,44,sbd,r-gyr-abania,theLochs,41.9,world
+z-the-ruby-sea,The Ruby Sea,45,sbd,r-othard,theRubySea,41.9,world
+z-yanxia,Yanxia,46,sbd,r-othard,yanxia,41.9,world
+z-the-azim-steppe,The Azim Steppe,47,sbd,r-othard,theAzimSteppe,41.9,world
+z-the-crystarium,The Crystarium,48,sbs,r-norvrandt,theCrystarium,21.4,town
+z-eulmore,Eulmore,49,sbs,r-norvrandt,kholusia,21.4,town
+z-the-empty,The Empty,50,sbs,r-norvrandt,amhAraeng,8.6,side
+z-lakeland,Lakeland,51,sbs,r-norvrandt,lakeland,41.9,world
+z-kholusia,Kholusia,52,sbs,r-norvrandt,kholusia,41.9,world
+z-amh-araeng,Amh Araeng,53,sbs,r-norvrandt,amhAraeng,41.9,world
+z-il-mheg,Il Mheg,54,sbs,r-norvrandt,ilMheg,41.9,world
+z-the-raktika-greatwood,The Rak'tika Greatwood,55,sbs,r-norvrandt,theRaktikaGreatwood,41.9,world
+z-the-tempest,The Tempest,56,sbs,r-norvrandt,theTempest,41.9,world
+z-radzathan,Radz-at-Han,57,ewr,r-ilsabard,radzatHan,21.4,town
+z-old-sharlayan,Old Sharlayan,58,ewr,r-the-northern-empty,oldSharlayan,21.4,town
+z-labyrinthos,Labyrinthos,59,ewr,r-the-northern-empty,labyrinthos,41.9,world
+z-thavnair,Thavnair,60,ewr,r-ilsabard,thavnair,41.9,world
+z-garlemald,Garlemald,61,ewr,r-ilsabard,garlemald,41.9,world
+z-mare-lamentorum,Mare Lamentorum,62,ewr,r-the-sea-of-stars,mareLamentorum,41.9,world
+z-ultima-thule,Ultima Thule,63,ewr,r-the-sea-of-stars,ultimaThule,41.9,world
+z-elpis,Elpis,64,ewr,r-the-world-unsundered,elpis,41.9,world
+z-tuliyollal,Tuliyollal,65,dtl,r-yok-tural,tuliyollal,23.7,town
+z-solution-nine,Solution Nine,66,dtl,r-xak-tural,solutionNine,23.7,town
+z-urqopacha,Urqopacha,67,dtl,r-yok-tural,urqopacha,41.9,world
+z-kozamauka,Kozama'uka,68,dtl,r-yok-tural,kozamauka,41.9,world
+z-yak-tel,Yak T'el,69,dtl,r-yok-tural,yakTel,41.9,world
+z-shaaloani,Shaaloani,70,dtl,r-xak-tural,shaaloani,41.9,world
+z-heritage-found,Heritage Found,71,dtl,r-xak-tural,heritageFound,41.9,world
+z-living-memory,Living Memory,72,dtl,r-unlost-world,livingMemory,41.9,world

@@ -1,0 +1,19 @@
+﻿id,name,default_order,region_icon
+r-la-noscea,La Noscea,1,lanoscea
+r-thanalan,Thanalan,2,thanalan
+r-the-black-shroud,The Black Shroud,3,theblackshroud
+r-coerthas,Coerthas,4,coerthas
+r-mor-dhona,Mor Dhona,5,aetheryte
+r-dravania,Dravania,6,aetheryte
+r-abalathias-spine,Abalathia's Spine,7,aetheryte
+r-hingashi,Hingashi,8,hingashi
+r-gyr-abania,Gyr Abania,9,gyrabania
+r-othard,Othard,10,aetheryte
+r-norvrandt,Norvrandt,11,thecrystarium
+r-ilsabard,Ilsabard,12,thavnair
+r-the-northern-empty,The Northern Empty,13,thenorthernempty
+r-the-sea-of-stars,The Sea of Stars,14,aetheryte
+r-the-world-unsundered,The World Unsundered,15,aetheryte
+r-yok-tural,Yok Tural,16,yoktural
+r-xak-tural,Xak Tural,17,xaktural
+r-unlost-world,Unlost World,18,aetheryte

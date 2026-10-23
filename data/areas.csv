@@ -1,0 +1,394 @@
+﻿id,name,default_order,zone_id,in_overview,has_subarea
+a-limsa-lominsa-upper-decks,Limsa Lominsa Upper Decks,1,z-limsa-lominsa-upper-decks,1,0
+a-limsa-lominsa-lower-decks,Limsa Lominsa Lower Decks,2,z-limsa-lominsa-lower-decks,1,0
+a-mist,Mist,3,z-mist,0,1
+a-wolves-den-pier,Wolves' Den Pier,4,z-wolves-den-pier,0,0
+a-unnamed-island,Unnamed Island,5,z-unnamed-island,0,0
+a-zephyr-drift,Zephyr Drift,6,z-middle-la-noscea,1,0
+a-rogue-river,Rogue River,7,z-middle-la-noscea,1,0
+a-summerford,Summerford,8,z-middle-la-noscea,1,0
+a-threemalm-bend,Three-malm Bend,9,z-middle-la-noscea,1,0
+a-nym-river,Nym River,10,z-middle-la-noscea,1,0
+a-moraby-bay,Moraby Bay,11,z-lower-la-noscea,1,0
+a-cedarwood,Cedarwood,12,z-lower-la-noscea,1,0
+a-the-gods-grip,The Gods' Grip,13,z-lower-la-noscea,1,0
+a-bloodshore,Bloodshore,14,z-eastern-la-noscea,1,0
+a-north-bloodshore,North Bloodshore,15,z-eastern-la-noscea,1,0
+a-raincatcher-gully,Raincatcher Gully,16,z-eastern-la-noscea,1,0
+a-agelyss-wise,Agelyss Wise,17,z-eastern-la-noscea,1,0
+a-costa-del-sol,Costa del Sol,18,z-eastern-la-noscea,1,0
+a-rhotano-sea-privateer-forecastle,Rhotano Sea (Privateer Forecastle),19,z-eastern-la-noscea,1,0
+a-rhotano-sea-privateer-sterncastle,Rhotano Sea (Privateer Sterncastle),20,z-eastern-la-noscea,1,0
+a-east-agelyss-river,East Agelyss River,21,z-eastern-la-noscea,1,0
+a-the-juggernaut,The Juggernaut,22,z-eastern-la-noscea,1,0
+a-north-isle-of-endless-summer,North Isle of Endless Summer,23,z-eastern-la-noscea,1,0
+a-north-drybone,North Drybone,24,z-eastern-thanalan,1,0
+a-south-drybone,South Drybone,25,z-eastern-thanalan,1,0
+a-quarterstone,Quarterstone,26,z-western-la-noscea,1,0
+a-skull-valley,Skull Valley,27,z-western-la-noscea,1,0
+a-the-isles-of-umbra,The Isles of Umbra,28,z-western-la-noscea,1,0
+a-halfstone,Halfstone,29,z-western-la-noscea,1,0
+a-sapsa-spawning-grounds,Sapsa Spawning Grounds,30,z-western-la-noscea,1,0
+a-isles-of-umbra-northshore,Isles of Umbra Northshore,31,z-western-la-noscea,1,0
+a-isles-of-umbra-southshore,Isles of Umbra Southshore,32,z-western-la-noscea,1,0
+a-bronze-lake,Bronze Lake,33,z-upper-la-noscea,1,0
+a-zelmas-run,Zelma's Run,34,z-upper-la-noscea,1,0
+a-oakwood,Oakwood,35,z-upper-la-noscea,1,0
+a-the-long-climb,The Long Climb,36,z-outer-la-noscea,1,0
+a-iron-lake,Iron Lake,37,z-outer-la-noscea,1,0
+a-ughamaro-mines,U'Ghamaro Mines,38,z-outer-la-noscea,1,0
+a-new-gridania,New Gridania,39,z-new-gridania,1,0
+a-jadeite-flood,Jadeite Flood,40,z-new-gridania,1,0
+a-upper-black-tea-brook,Upper Black Tea Brook,41,z-old-gridania,1,0
+a-old-gridania,Old Gridania,42,z-old-gridania,1,0
+a-lavender-beds,Lavender Beds,43,z-lavender-beds,0,1
+a-the-lavender-beds,The Lavender Beds,44,z-lavender-beds,0,1
+a-bentbranch,Bentbranch,45,z-central-shroud,1,0
+a-jadeite-thick,Jadeite Thick,46,z-central-shroud,1,0
+a-the-standing-corses,The Standing Corses,47,z-central-shroud,1,0
+a-sorrel-haven,Sorrel Haven,48,z-central-shroud,1,0
+a-greentear,Greentear,49,z-central-shroud,1,0
+a-the-mirror,The Mirror,50,z-central-shroud,1,0
+a-haukke-manor,Haukke Manor,51,z-central-shroud,1,0
+a-the-honey-yard,The Honey Yard,52,z-east-shroud,1,0
+a-sylphlands,Sylphlands,53,z-east-shroud,1,0
+a-nine-ivies,Nine Ivies,54,z-east-shroud,1,0
+a-the-bramble-patch,The Bramble Patch,55,z-east-shroud,1,0
+a-verdant-drop,Verdant Drop,56,z-east-shroud,1,0
+a-lower-paths,Lower Paths,57,z-south-shroud,1,0
+a-silent-arbor,Silent Arbor,58,z-south-shroud,1,0
+a-upper-paths,Upper Paths,59,z-south-shroud,1,0
+a-urths-gift,Urth's Gift,60,z-south-shroud,1,0
+a-lower-hathoeva-river,Lower Hathoeva River,61,z-south-shroud,1,0
+a-middle-hathoeva-river,Middle Hathoeva River,62,z-south-shroud,1,0
+a-goblinblood,Goblinblood,63,z-south-shroud,1,0
+a-rootslake,Rootslake,64,z-south-shroud,1,0
+a-alder-springs,Alder Springs,65,z-north-shroud,1,0
+a-fallgourd-float,Fallgourd Float,66,z-north-shroud,1,0
+a-treespeak,Treespeak,67,z-north-shroud,1,0
+a-peacegarden,Peacegarden,68,z-north-shroud,1,0
+a-proud-creek,Proud Creek,69,z-north-shroud,1,0
+a-uldah-steps-of-nald,Ul'dah - Steps of Nald,70,z-uldah-steps-of-nald,0,0
+a-uldah-steps-of-thal,Ul'dah - Steps of Thal,71,z-uldah-steps-of-thal,1,1
+a-the-goblet,The Goblet,72,z-the-goblet,0,1
+a-the-gold-saucer,The Gold Saucer,73,z-the-gold-saucer,0,1
+a-the-eighty-sins-of-sasamo,The Eighty Sins of Sasamo,74,z-western-thanalan,1,0
+a-hammerlea,Hammerlea,75,z-western-thanalan,1,0
+a-nophicas-wells,Nophica's Wells,76,z-western-thanalan,1,0
+a-horizons-edge,Horizon's Edge,77,z-western-thanalan,1,0
+a-the-footfalls,The Footfalls,78,z-western-thanalan,1,0
+a-cape-westwind,Cape Westwind,79,z-western-thanalan,1,0
+a-moondrip,Moondrip,80,z-western-thanalan,1,0
+a-spineless-basin,Spineless Basin,81,z-central-thanalan,1,0
+a-the-clutch,The Clutch,82,z-central-thanalan,1,0
+a-black-brush,Black Brush,83,z-central-thanalan,1,0
+a-wellwick-wood,Wellwick Wood,84,z-eastern-thanalan,1,0
+a-the-burning-wall,The Burning Wall,85,z-eastern-thanalan,1,0
+a-sandgate,Sandgate,86,z-eastern-thanalan,1,0
+a-drybone,Drybone,87,z-eastern-thanalan,1,0
+a-sagolii-desert,Sagolii Desert,88,z-southern-thanalan,1,0
+a-the-red-labyrinth,The Red Labyrinth,89,z-southern-thanalan,1,0
+a-zanrak,Zanr'ak,90,z-southern-thanalan,1,0
+a-zaharak,Zahar'ak,91,z-southern-thanalan,1,0
+a-broken-water,Broken Water,92,z-southern-thanalan,1,0
+a-burnt-lizard-creek,Burnt Lizard Creek,93,z-southern-thanalan,1,0
+a-forgotten-springs,Forgotten Springs,94,z-southern-thanalan,1,0
+a-sagolii-dunes,Sagolii Dunes,95,z-southern-thanalan,1,0
+a-bluefog,Bluefog,96,z-northern-thanalan,1,0
+a-raubahns-push,Raubahn's Push,97,z-northern-thanalan,1,0
+a-ceruleum-field,Ceruleum Field,98,z-northern-thanalan,1,0
+a-dragonhead,Dragonhead,99,z-coerthas-central-highlands,1,0
+a-providence-point,Providence Point,100,z-coerthas-central-highlands,1,0
+a-boulder-downs,Boulder Downs,101,z-coerthas-central-highlands,1,0
+a-whitebrim,Whitebrim,102,z-coerthas-central-highlands,1,0
+a-the-nail,The Nail,103,z-coerthas-central-highlands,1,0
+a-dragonhead-latrines,Dragonhead Latrines,104,z-coerthas-central-highlands,1,0
+a-snowcloak,Snowcloak,105,z-coerthas-central-highlands,1,0
+a-sea-of-clouds,Sea of Clouds,106,z-coerthas-central-highlands,1,0
+a-fogfens,Fogfens,107,z-mor-dhona,1,0
+a-revenants-toll,Revenant's Toll,108,z-mor-dhona,1,0
+a-north-silvertear,North Silvertear,109,z-mor-dhona,1,0
+a-the-eight-sentinels,The Eight Sentinels,110,z-mor-dhona,1,0
+a-the-deep-tangle,The Deep Tangle,111,z-mor-dhona,1,0
+a-the-north-shards,The North Shards,112,z-mor-dhona,1,0
+a-foundation,Foundation,113,z-foundation,0,1
+a-idyllshire,Idyllshire,114,z-idyllshire,0,0
+a-riversmeet,Riversmeet,115,z-coerthas-western-highlands,1,0
+a-twinpools,Twinpools,116,z-coerthas-western-highlands,1,0
+a-red-rim,Red Rim,117,z-coerthas-western-highlands,1,0
+a-greytail-falls,Greytail Falls,118,z-coerthas-western-highlands,1,0
+a-unfrozen-pond,Unfrozen Pond,119,z-coerthas-western-highlands,1,0
+a-clearpool,Clearpool,120,z-coerthas-western-highlands,1,0
+a-south-banepool,South Banepool,121,z-coerthas-western-highlands,1,0
+a-west-banepool,West Banepool,122,z-coerthas-western-highlands,1,0
+a-cloudtop,Cloudtop,123,z-the-sea-of-clouds,1,0
+a-last-step,Last Step,124,z-the-sea-of-clouds,1,0
+a-the-blue-window,The Blue Window,125,z-the-sea-of-clouds,1,0
+a-voor-sian-siran,Voor Sian Siran,126,z-the-sea-of-clouds,1,0
+a-ok-vundu-mok,Ok' Vundu Mok,127,z-the-sea-of-clouds,1,0
+a-ok-vundu-vana,Ok' Vundu Vana,128,z-the-sea-of-clouds,1,0
+a-vundu-ok-bendu,Vundu Ok' Bendu,129,z-the-sea-of-clouds,1,0
+a-the-gauntlet,The Gauntlet,130,z-the-sea-of-clouds,1,0
+a-alpha-quadrant,Alpha Quadrant,131,z-azys-lla,1,0
+a-beta-quadrant,Beta Quadrant,132,z-azys-lla,1,0
+a-gamma-quadrant,Gamma Quadrant,133,z-azys-lla,1,0
+a-delta-quadrant,Delta Quadrant,134,z-azys-lla,1,0
+a-the-flagship,The Flagship,135,z-azys-lla,1,0
+a-aetherochemical-spill,Aetherochemical Spill,136,z-azys-lla,1,0
+a-chocobo-forest,Chocobo Forest,137,z-the-dravanian-forelands,1,0
+a-the-smoldering-wastes,The Smoldering Wastes,138,z-the-dravanian-forelands,1,0
+a-avalonia-fallen,Avalonia Fallen,139,z-the-dravanian-forelands,1,0
+a-sohm-al-foothills,Sohm Al Foothills,140,z-the-dravanian-forelands,1,0
+a-mourn,Mourn,141,z-the-dravanian-forelands,1,0
+a-the-makers-quarter,The Makers' Quarter,142,z-the-dravanian-hinterlands,1,0
+a-the-answering-quarter,The Answering Quarter,143,z-the-dravanian-hinterlands,1,0
+a-the-ruling-quarter,The Ruling Quarter,144,z-the-dravanian-hinterlands,1,0
+a-upper-thaliak-river,Upper Thaliak River,145,z-the-dravanian-hinterlands,1,0
+a-middle-thaliak-river,Middle Thaliak River,146,z-the-dravanian-hinterlands,1,0
+a-eil-tohm,Eil Tohm,147,z-the-churning-mists,1,0
+a-four-arms,Four Arms,148,z-the-churning-mists,1,0
+a-ohl-tahn,Ohl Tahn,149,z-the-churning-mists,1,0
+a-greensward,Greensward,150,z-the-churning-mists,1,0
+a-landlord-colony,Landlord Colony,151,z-the-churning-mists,1,0
+a-sohm-al-summit,Sohm Al Summit,152,z-the-churning-mists,1,0
+a-kugane,Kugane,153,z-kugane,1,0
+a-rhalgrs-reach,Rhalgr's Reach,154,z-rhalgrs-reach,1,0
+a-upper-mirage-creek,Upper Mirage Creek,155,z-rhalgrs-reach,1,0
+a-the-outer-fist,The Outer Fist,156,z-rhalgrs-reach,1,0
+a-shirogane,Shirogane,157,z-shirogane,0,1
+a-the-silver-canal,The Silver Canal,158,z-shirogane,0,1
+a-the-doman-enclave,The Doman Enclave,159,z-the-doman-enclave,0,0
+a-east-end,East End,160,z-the-fringes,1,0
+a-dimwold,Dimwold,161,z-the-fringes,1,0
+a-pike-falls,Pike Falls,162,z-the-fringes,1,0
+a-the-striped-hills,The Striped Hills,163,z-the-fringes,1,0
+a-virdjala,Virdjala,164,z-the-fringes,1,0
+a-timmon-beck,Timmon Beck,165,z-the-fringes,1,0
+a-the-last-forest,The Last Forest,166,z-the-peaks,1,0
+a-rustrock,Rustrock,167,z-the-peaks,1,0
+a-wightrock,Wightrock,168,z-the-peaks,1,0
+a-mount-yorn,Mount Yorn,169,z-the-peaks,1,0
+a-the-bulls-bath,The Bull's Bath,170,z-the-peaks,1,0
+a-the-high-bank,The High Bank,171,z-the-lochs,1,0
+a-loch-seld,Loch Seld,172,z-the-lochs,1,0
+a-the-ala-mhigan-quarter,The Ala Mhigan Quarter,173,z-the-lochs,1,0
+a-the-queens-gardens,The Queen's Gardens,174,z-the-lochs,1,0
+a-abalathias-skull,Abalathia's Skull,175,z-the-lochs,1,0
+a-rasen-kaikyo,Rasen Kaikyo,176,z-the-ruby-sea,1,0
+a-the-isle-of-zekki,The Isle of Zekki,177,z-the-ruby-sea,1,0
+a-the-turquoise-trench,The Turquoise Trench,178,z-the-ruby-sea,1,0
+a-east-othard-coastline,East Othard Coastline,179,z-the-ruby-sea,1,0
+a-the-gensui-chain,The Gensui Chain,180,z-yanxia,1,0
+a-the-glittering-basin,The Glittering Basin,181,z-yanxia,1,0
+a-valley-of-the-fallen-rainbow,Valley of the Fallen Rainbow,182,z-yanxia,1,0
+a-doma,Doma,183,z-yanxia,1,0
+a-the-herons-nest,The Heron's Nest,184,z-yanxia,1,0
+a-the-herons-way,The Heron's Way,185,z-yanxia,1,0
+a-namai,Namai,186,z-yanxia,1,0
+a-the-one-river-east,The One River (East),187,z-yanxia,1,0
+a-the-one-river-west,The One River (West),188,z-yanxia,1,0
+a-prism-canyon,Prism Canyon,189,z-yanxia,1,0
+a-nem-khaal,Nem Khaal,190,z-the-azim-steppe,1,0
+a-hak-khaal,Hak Khaal,191,z-the-azim-steppe,1,0
+a-upper-yat-khaal,Upper Yat Khaal,192,z-the-azim-steppe,1,0
+a-tao-khaal,Tao Khaal,193,z-the-azim-steppe,1,0
+a-lower-yat-khaal,Lower Yat Khaal,194,z-the-azim-steppe,1,0
+a-the-sea-of-blades,The Sea of Blades,195,z-the-azim-steppe,1,0
+a-azim-khaat,Azim Khaat,196,z-the-azim-steppe,1,0
+a-onsal-hakair,Onsal Hakair,197,z-the-azim-steppe,1,0
+a-the-towering-still,The Towering Still,198,z-the-azim-steppe,1,0
+a-nhaamas-retreat,Nhaama's Retreat,199,z-the-azim-steppe,1,0
+a-the-crystarium,The Crystarium,200,z-the-crystarium,1,0
+a-the-quadrivium,The Quadrivium,201,z-the-crystarium,1,0
+a-quadrivium,Quadrivium,202,z-the-crystarium,1,0
+a-eulmore,Eulmore,203,z-eulmore,1,1
+a-the-empty,The Empty,204,z-the-empty,0,0
+a-weathering,Weathering,205,z-lakeland,1,0
+a-laxan-loft,Laxan Loft,206,z-lakeland,1,0
+a-the-forest-of-the-lost-shepherd,The Forest of the Lost Shepherd,207,z-lakeland,1,0
+a-the-thirstless-shore,The Thirstless Shore,208,z-lakeland,1,0
+a-the-source,The Source,209,z-lakeland,1,0
+a-the-exarch-gate,The Exarch Gate,210,z-lakeland,1,0
+a-fort-jobb,Fort Jobb,211,z-lakeland,1,0
+a-sullen,Sullen,212,z-lakeland,1,0
+a-the-chiliad,The Chiliad,213,z-lakeland,1,0
+a-the-rift-of-sighs,The Rift of Sighs,214,z-lakeland,1,0
+a-the-rusted-reservoir,The Rusted Reservoir,215,z-lakeland,1,0
+a-the-bright-cliff,The Bright Cliff,216,z-kholusia,1,0
+a-the-whales-breach,The Whale's Breach,217,z-kholusia,1,0
+a-stilltide,Stilltide,218,z-kholusia,1,0
+a-the-duergar-mountains,The Duergar Mountains,219,z-kholusia,1,0
+a-scree,Scree,220,z-kholusia,1,0
+a-tomra,Tomra,221,z-kholusia,1,0
+a-shadow-fault,Shadow Fault,222,z-kholusia,1,0
+a-seagazer-shoals,Seagazer Shoals,223,z-kholusia,1,0
+a-the-eastern-kholusian-coast,The Eastern Kholusian Coast,224,z-kholusia,1,0
+a-the-northern-hills-of-amber,The Northern Hills of Amber,225,z-amh-araeng,1,0
+a-the-central-hills-of-amber,The Central Hills of Amber,226,z-amh-araeng,1,0
+a-the-southern-hills-of-amber,The Southern Hills of Amber,227,z-amh-araeng,1,0
+a-nabaath-areng,Nabaath Areng,228,z-amh-araeng,1,0
+a-mord-souq,Mord Souq,229,z-amh-araeng,1,0
+a-the-fields-of-amber,The Fields of Amber,230,z-amh-araeng,1,0
+a-the-river-of-sand,The River of Sand,231,z-amh-araeng,1,0
+a-the-hills-of-amber,The Hills of Amber,232,z-amh-araeng,1,0
+a-timh-gyeus,Timh Gyeus,233,z-il-mheg,1,0
+a-good-jenannas-grace,Good Jenanna's Grace,234,z-il-mheg,1,0
+a-longmirror-lake,Longmirror Lake,235,z-il-mheg,1,0
+a-mithai-glorianda,Mithai Glorianda,236,z-il-mheg,1,0
+a-voeburtenburg,Voeburtenburg,237,z-il-mheg,1,0
+a-the-haughty-one,The Haughty One,238,z-il-mheg,1,0
+a-the-jealous-one,The Jealous One,239,z-il-mheg,1,0
+a-father-collards-failings,Father Collard's Failings,240,z-il-mheg,1,0
+a-slitherbough,Slitherbough,241,z-the-raktika-greatwood,1,0
+a-the-citia-swamps,The Citia Swamps,242,z-the-raktika-greatwood,1,0
+a-lake-tusi-mekta,Lake Tusi Mek'ta,243,z-the-raktika-greatwood,1,0
+a-fanow,Fanow,244,z-the-raktika-greatwood,1,0
+a-the-blind-forest-of-yxmaja,The Blind Forest of Yx'Maja,245,z-the-raktika-greatwood,1,0
+a-the-kmul-astropolis,The K'mul Astropolis,246,z-the-raktika-greatwood,1,0
+a-the-oxdalan-gap,The Ox'Dalan Gap,247,z-the-raktika-greatwood,1,0
+a-the-lozatl,The Lozatl,248,z-the-raktika-greatwood,1,0
+a-south-mjrls-regret,South Mjrl's Regret,249,z-the-raktika-greatwood,1,0
+a-the-norvrandt-slope,The Norvrandt Slope,250,z-the-tempest,1,0
+a-the-caliban-gorge,The Caliban Gorge,251,z-the-tempest,1,0
+a-amaurot,Amaurot,252,z-the-tempest,1,0
+a-the-flounders-floor,The Flounders' Floor,253,z-the-tempest,1,0
+a-northwest-caliban-gorge,Northwest Caliban Gorge,254,z-the-tempest,1,0
+a-east-caliban-gap,East Caliban Gap,255,z-the-tempest,1,0
+a-west-caliban-gap,West Caliban Gap,256,z-the-tempest,1,0
+a-radzathan,Radz-at-Han,257,z-radzathan,1,0
+a-old-sharlayan,Old Sharlayan,258,z-old-sharlayan,1,0
+a-scholars-harbor,Scholar's Harbor,259,z-old-sharlayan,1,0
+a-oinops,Oinops,260,z-old-sharlayan,1,0
+a-the-outer-circuit,The Outer Circuit,261,z-labyrinthos,1,0
+a-the-medial-circuit,The Medial Circuit,262,z-labyrinthos,1,0
+a-mornveil-forest,Mornveil Forest,263,z-labyrinthos,1,0
+a-the-central-circuit,The Central Circuit,264,z-labyrinthos,1,0
+a-unmoved-source-alpha,Unmoved Source Alpha,265,z-labyrinthos,1,0
+a-the-mover-alpha,The Mover Alpha,266,z-labyrinthos,1,0
+a-unmoved-source-beta,Unmoved Source Beta,267,z-labyrinthos,1,0
+a-the-shroud-of-the-samgha,The Shroud of the Samgha,268,z-thavnair,1,0
+a-the-perfumed-rise,The Perfumed Rise,269,z-thavnair,1,0
+a-saltwinds-welcome,Saltwind's Welcome,270,z-thavnair,1,0
+a-nights-watch,Night's Watch,271,z-thavnair,1,0
+a-yedlihmad,Yedlihmad,272,z-thavnair,1,0
+a-the-great-runoff,The Great Runoff,273,z-thavnair,1,0
+a-giantsgall-grounds,Giantsgall Grounds,274,z-thavnair,1,0
+a-the-wakeful-torana,The Wakeful Torana,275,z-thavnair,1,0
+a-ksiroda,Ksiroda,276,z-thavnair,1,0
+a-pavanas-remorse,Pavana's Remorse,277,z-thavnair,1,0
+a-the-perfumed-tides,The Perfumed Tides,278,z-thavnair,1,0
+a-the-eblan-rime,The Eblan Rime,279,z-garlemald,1,0
+a-cerulea-ingens,Cerulea Ingens,280,z-garlemald,1,0
+a-regio-domorum,Regio Domorum,281,z-garlemald,1,0
+a-regio-urbanissima,Regio Urbanissima,282,z-garlemald,1,0
+a-the-eblan-thaw,The Eblan Thaw,283,z-garlemald,1,0
+a-the-stainless-course,The Stainless Course,284,z-garlemald,1,0
+a-sinus-lacrimarum,Sinus Lacrimarum,285,z-mare-lamentorum,1,0
+a-southern-mare-lamentorum,Southern Mare Lamentorum,286,z-mare-lamentorum,1,0
+a-sinus-tormenti,Sinus Tormenti,287,z-mare-lamentorum,1,0
+a-northern-mare-lamentorum,Northern Mare Lamentorum,288,z-mare-lamentorum,1,0
+a-bestways-burrow,Bestways Burrow,289,z-mare-lamentorum,1,0
+a-the-carrotorium,The Carrotorium,290,z-mare-lamentorum,1,0
+a-greatest-endsvale,Greatest Endsvale,291,z-mare-lamentorum,1,0
+a-the-frozen-fissure,The Frozen Fissure,292,z-mare-lamentorum,1,0
+a-ostrakon-dekaokto,Ostrakon Deka-okto,293,z-ultima-thule,1,0
+a-ostrakon-tria,Ostrakon Tria,294,z-ultima-thule,1,0
+a-ostrakon-dekahexi,Ostrakon Deka-hexi,295,z-ultima-thule,1,0
+a-ostrakon-hena,Ostrakon Hena,296,z-ultima-thule,1,0
+a-a4-research,A-4 Research,297,z-ultima-thule,1,0
+a-apohelos-18alpha,Apohelos 18-α,298,z-ultima-thule,1,0
+a-apohelos-18beta,Apohelos 18-β,299,z-ultima-thule,1,0
+a-apohelos-18gamma,Apohelos 18-γ,300,z-ultima-thule,1,0
+a-the-wellspring-of-regret,The Wellspring of Regret,301,z-ultima-thule,1,0
+a-limne-18,Limne 18,302,z-ultima-thule,1,0
+a-limne-3alpha,Limne 3-α,303,z-ultima-thule,1,0
+a-limne-3beta,Limne 3-β,304,z-ultima-thule,1,0
+a-philomythes-notos,Philomythes Notos,305,z-elpis,1,0
+a-kallimelios-zephyros,Kallimelios Zephyros,306,z-elpis,1,0
+a-ethoseletikos-boreas,Ethoseletikos Boreas,307,z-elpis,1,0
+a-misopses-euros,Misopses Euros,308,z-elpis,1,0
+a-ruminations-ramble,Rumination's Ramble,309,z-elpis,1,0
+a-lethe,Lethe,310,z-elpis,1,0
+a-tuliyollal,Tuliyollal,311,z-tuliyollal,1,0
+a-downripple,Downripple,312,z-tuliyollal,1,0
+a-high-tide-harbor,High Tide Harbor,313,z-tuliyollal,1,0
+a-solution-nine,Solution Nine,314,z-solution-nine,1,0
+a-residential-sector,Residential Sector,315,z-solution-nine,1,0
+a-chabayuqeq,Chabayuqeq,316,z-urqopacha,1,0
+a-chabameki,Chabameki,317,z-urqopacha,1,0
+a-solace,Solace,318,z-urqopacha,1,0
+a-sorrow,Sorrow,319,z-urqopacha,1,0
+a-larh-tortoh,Larh Tortoh,320,z-urqopacha,1,0
+a-wachunpelo,Wachunpelo,321,z-urqopacha,1,0
+a-worlars-echo,Worlar's Echo,322,z-urqopacha,1,0
+a-uyuyub,Uyuyub',323,z-kozamauka,1,0
+a-miyakabekzu,Miyakabek'zu,324,z-kozamauka,1,0
+a-uyuypoga,Uyuypoga,325,z-kozamauka,1,0
+a-the-dewspun-bank,The Dewspun Bank,326,z-kozamauka,1,0
+a-miyakabekzoma,Miyakabek'zoma,327,z-kozamauka,1,0
+a-the-glostfired-bank,The Glostfired Bank,328,z-kozamauka,1,0
+a-earthenshire,Earthenshire,329,z-kozamauka,1,0
+a-waters-hanu,Waters Hanu,330,z-kozamauka,1,0
+a-peaks-poga,Peaks Poga,331,z-kozamauka,1,0
+a-the-utohmu-horizon,The Ut'ohmu Horizon,332,z-yak-tel,1,0
+a-iq-braax,Iq Br'aax,333,z-yak-tel,1,0
+a-the-xobrit-cinderfield,The Xobr'it Cinderfield,334,z-yak-tel,1,0
+a-mamook,Mamook,335,z-yak-tel,1,0
+a-the-ja-tiika-heartland,The Ja Tiika Heartland,336,z-yak-tel,1,0
+a-the-cerulean-cexudross,The Cerulean Cexudross,337,z-yak-tel,1,0
+a-eshceyaani-wilds,Eshceyaani Wilds,338,z-shaaloani,1,0
+a-yawtanane-grasslands,Yawtanane Grasslands,339,z-shaaloani,1,0
+a-pyariyoanaan-plain,Pyariyoanaan Plain,340,z-shaaloani,1,0
+a-niikwerepi,Niikwerepi,341,z-shaaloani,1,0
+a-eastbound-zorgor,Eastbound Zorgor,342,z-shaaloani,1,0
+a-everkeep-ward,Everkeep Ward,343,z-heritage-found,1,0
+a-east-yyasulani,East Yyasulani,344,z-heritage-found,1,0
+a-archeo-alexandria,Archeo Alexandria,345,z-heritage-found,1,0
+a-outskirts-shallows,Outskirts Shallows,346,z-heritage-found,1,0
+a-crackling-canyons,Crackling Canyons,347,z-heritage-found,1,0
+a-alexandrian-ruins,Alexandrian Ruins,348,z-heritage-found,1,0
+a-gate-of-remembrance,Gate of Remembrance,349,z-living-memory,1,0
+a-canal-town,Canal Town,350,z-living-memory,1,0
+a-yesterland,Yesterland,351,z-living-memory,1,0
+a-asyle-volcane,Asyle Volcane,352,z-living-memory,1,0
+a-windspath-gardens,Windspath Gardens,353,z-living-memory,1,0
+a-mu-springs-eternal,Mu Springs Eternal,354,z-living-memory,1,0
+a-leynode-aero,Leynode Aero,355,z-living-memory,1,0
+a-canal-town-south,Canal Town South,356,z-living-memory,1,0
+a-canal-town-north,Canal Town North,357,z-living-memory,1,0
+a-moraby-drydocks,Moraby Drydocks,358,z-lower-la-noscea,1,0
+a-south-bloodshore,South Bloodshore,359,z-eastern-la-noscea,1,0
+a-swiftperch,Swiftperch,360,z-western-la-noscea,1,0
+a-murmur-rills,Murmur Rills,361,z-north-shroud,1,0
+a-east-hathoeva-river,East Hathoeva River,362,z-south-shroud,1,0
+a-upper-hathoeva-river,Upper Hathoeva River,363,z-south-shroud,1,0
+a-springripple-brook,Springripple Brook,364,z-east-shroud,1,0
+a-sweetbloom-pier,Sweetbloom Pier,365,z-east-shroud,1,0
+a-everschade,Everschade,366,z-central-shroud,1,0
+a-whispering-gorge,Whispering Gorge,367,z-old-gridania,1,0
+a-northwest-bronze-lake,Northwest Bronze Lake,368,z-outer-la-noscea,1,0
+a-northeast-bronze-lake,Northeast Bronze Lake,369,z-upper-la-noscea,1,0
+a-bronze-lake-shallows,Bronze Lake Shallows,370,z-upper-la-noscea,1,0
+a-lower-soot-creek,Lower Soot Creek,371,z-central-thanalan,1,0
+a-upper-soot-creek,Upper Soot Creek,372,z-central-thanalan,1,0
+a-crescent-cove,Crescent Cove,373,z-western-thanalan,1,0
+a-west-mourn,West Mourn,374,z-the-dravanian-forelands,1,0
+a-the-slow-wash,The Slow Wash,375,z-the-peaks,1,0
+a-mjrls-tears,Mjrl's Tears,376,z-the-raktika-greatwood,1,0
+a-the-derelicts,The Derelicts,377,z-eulmore,1,1
+a-crystarium-personal-suites,Crystarium Personal Suites,378,z-the-crystarium,1,0
+a-the-trivium,The Trivium,379,z-the-crystarium,1,0
+a-trivium,Trivium,380,z-the-crystarium,1,0
+a-abode-of-the-ea,Abode of the Ea,381,z-ultima-thule,1,0
+a-the-chlorophospond,The Chlorophospond,382,z-mare-lamentorum,1,0
+a-the-thavnairian-coast,The Thavnairian Coast,383,z-thavnair,1,0
+a-meghaduta,Meghaduta,384,z-radzathan,1,0
+a-deepmoat,Deepmoat,385,z-labyrinthos,1,0
+a-the-mover-beta,The Mover Beta,386,z-labyrinthos,1,0
+a-reflecting-pool,Reflecting Pool,387,z-old-sharlayan,1,0
+a-westbound-zorgor,Westbound Zorgor,388,z-shaaloani,1,0
+a-cenote-moxutural,Cenote Moxutural,389,z-yak-tel,1,0
+a-iq-braax-reservoir,Iq Br'aax Reservoir,390,z-yak-tel,1,0
+a-the-forard-cabins,The For'ard Cabins,391,z-tuliyollal,1,0
+a-the-lower-hungering-gardens,The Lower Hungering Gardens,392,z-elpis,1,0
+a-the-western-kholusian-coast,The Western Kholusian Coast,393,z-kholusia,1,0

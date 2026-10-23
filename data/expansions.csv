@@ -1,0 +1,7 @@
+﻿id,name,default_order,vista_exp,vista_level_min,vista_level_max
+arr,A Realm Reborn,1,0,0,50
+hwd,Heavensward,2,8775,50,60
+sbd,Stormblood,3,18750,60,70
+sbs,Shadowbringers,4,40500,70,80
+ewr,Endwalker,5,84150,80,90
+dtl,Dawntrail,6,186480,90,100
