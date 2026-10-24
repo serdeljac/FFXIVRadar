@@ -3,7 +3,7 @@
 
   RAW layout (an optional "Item | Class | ..." header row is skipped):
   - Item line: columns A-H filled (item, class, level, type, yield, durability,
-    difficulty, max quality). Level may carry stars, e.g. "50 ★★".
+    difficulty, max quality). Level may have star characters after the number.
   - Column I, from the item line down to the next item, holds
     quantity / material-name pairs.
   - Rows with text in column A but no class are notes for the item above,
@@ -12,7 +12,7 @@
     e.g. "(31500 required for synthesis)".
 
   CRAFTING output:
-  - level is the number only; stars is the count of ★ (0 if none).
+  - level is the number only; stars is the number of star characters (0 if none).
   - Crystals (Shard/Crystal/Cluster of the six elements) go to
     crystals_name / crystals_quantity, everything else to materials_name /
     materials_quantity, written as Postgres array literals:
@@ -34,21 +34,34 @@
     are appended below. No rows are deleted.
   - A backup of the workbook is saved before every real run (see -BackupDir).
 
+  -InputJson reads recipes from a JSON file instead of the RAW sheet (RAW is
+  then not read at all). The file is an array with one array per recipe:
+    [item, class, level, type, yield, durability, difficulty, max quality,
+     learned-from note or null, max quality note or null,
+     [quantity, name, quantity, name, ...]]
+  e.g. ["Bronze Ingot","Armorer","1","Metal",1,40,9,80,null,null,[2,"Copper Ore",1,"Ice Shard"]]
+  Each recipe is laid out as RAW rows and goes through the same rules above.
+  scripts/Get-WikiRecipes.ps1 -Class <name> builds this file from the wiki.
+  (Row numbers in warnings then refer to that layout, not to a sheet.)
+
   Needs Excel installed. Close the workbook in Excel before running.
 
   Usage (from the repo root):
     .\scripts\Convert-RawToCrafting.ps1 -DryRun   # preview, saves nothing
     .\scripts\Convert-RawToCrafting.ps1           # write CRAFTING and save
+    .\scripts\Convert-RawToCrafting.ps1 -InputJson recipes.json [-DryRun]
 #>
 param(
   [string]$Path = (Join-Path $PSScriptRoot '..\PrepData.xlsx'),
   [string]$BackupDir = (Join-Path $env:TEMP 'FFXIVRadar-backups'),
+  [string]$InputJson,
   [switch]$DryRun
 )
 $ErrorActionPreference = 'Stop'
 
 # Excel needs an absolute path.
 $Path = (Resolve-Path $Path).Path
+if ($InputJson) { $InputJson = (Resolve-Path $InputJson).Path }
 
 # Written as a char code so the script file can stay plain ASCII.
 $star = [string][char]0x2605
@@ -81,7 +94,7 @@ function ConvertTo-PgIntArray([System.Collections.Generic.List[int]]$nums) {
   return '{' + ($nums -join ',') + '}'
 }
 
-# "50 ★★" -> level 50, stars 2. Returns $null if the level isn't a whole number.
+# "50" + two star characters -> level 50, stars 2. Returns $null if the level isn't a whole number.
 function ConvertFrom-Level($x) {
   $s = [string]$x
   $stars = [regex]::Matches($s, [regex]::Escape($star)).Count
@@ -123,6 +136,31 @@ function Get-ColumnValues($ws, [int]$col, [int]$first, [int]$last) {
   return $out
 }
 
+# Lays the recipes of an -InputJson file out as RAW rows (columns A-I), returned as a
+# 1-based 2D array like a sheet range. Line 1: A-H + first quantity in I. Line 2:
+# learned-from note in A, max quality note in H, first name in I. Then one I value per line.
+function ConvertFrom-RecipeJson([string]$file) {
+  $recipes = [System.IO.File]::ReadAllText($file, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+  $grid = New-Object System.Collections.Generic.List[object]
+  foreach ($rc in $recipes) {
+    $seq = @($rc[10])
+    $line = New-Object object[] 10
+    for ($j = 0; $j -lt 8; $j++) { $line[$j + 1] = $rc[$j] }
+    if ($seq.Count) { $line[9] = $seq[0] }
+    $grid.Add($line)
+    $needNote = -not (Test-Blank $rc[8]) -or -not (Test-Blank $rc[9])
+    for ($k = 1; $k -lt $seq.Count -or $needNote; $k++) {
+      $line = New-Object object[] 10
+      if ($needNote) { $line[1] = $rc[8]; $line[8] = $rc[9]; $needNote = $false }
+      if ($k -lt $seq.Count) { $line[9] = $seq[$k] }
+      $grid.Add($line)
+    }
+  }
+  $v = New-Object 'object[,]' ($grid.Count + 1), 10
+  for ($i = 0; $i -lt $grid.Count; $i++) { for ($j = 1; $j -le 9; $j++) { $v[($i + 1), $j] = $grid[$i][$j] } }
+  return , $v
+}
+
 $dir = Split-Path $Path -Parent
 $leaf = Split-Path $Path -Leaf
 if (Test-Path (Join-Path $dir ('~$' + $leaf))) {
@@ -136,8 +174,16 @@ $xl.DisplayAlerts = $false
 $wb = $null
 try {
   $wb = $xl.Workbooks.Open($Path, 0, [bool]$DryRun)
-  $raw   = $wb.Worksheets.Item('RAW')
+  $sheetNames = @(); $sheets = $wb.Worksheets
+  for ($s = 1; $s -le $sheets.Count; $s++) { $sh = $sheets.Item($s); $sheetNames += $sh.Name }
+  $sh = $null; $sheets = $null
+  if ($sheetNames -notcontains 'CRAFTING') { throw "$leaf has no CRAFTING sheet." }
   $craft = $wb.Worksheets.Item('CRAFTING')
+  # RAW is only needed when there's no -InputJson.
+  if (-not $InputJson) {
+    if ($sheetNames -notcontains 'RAW') { throw "$leaf has no RAW sheet. Add one, or pass -InputJson." }
+    $raw = $wb.Worksheets.Item('RAW')
+  }
 
   # --- CRAFTING columns, by header name ---
   $cu = $craft.UsedRange
@@ -156,13 +202,21 @@ try {
   # Side by side (the usual case) -> one write per row; otherwise one write per cell.
   $contiguous = ($maxCol - $minCol + 1) -eq $managed.Count
 
-  # --- read RAW ---
-  $ur = $raw.UsedRange
-  $lastRow = $ur.Row + $ur.Rows.Count - 1
-  $v = $raw.Range("A1:I$lastRow").Value2
+  # --- read RAW (or the -InputJson file) ---
+  if ($InputJson) {
+    $v = ConvertFrom-RecipeJson $InputJson
+    $lastRow = $v.GetLength(0) - 1
+    $sourceName = Split-Path $InputJson -Leaf
+  }
+  else {
+    $ur = $raw.UsedRange
+    $lastRow = $ur.Row + $ur.Rows.Count - 1
+    $v = $raw.Range("A1:I$lastRow").Value2
+    $sourceName = 'RAW'
+  }
   $start = 1
   if (([string]$v[1, 1]).Trim().ToLower() -eq 'item' -and ([string]$v[1, 2]).Trim().ToLower() -eq 'class') { $start = 2 }
-  if ($lastRow -lt $start) { throw 'RAW has no data rows.' }
+  if ($lastRow -lt $start) { throw "$sourceName has no data rows." }
 
   $items = New-Object System.Collections.Generic.List[object]
   $cur = $null
@@ -335,7 +389,8 @@ try {
   }
 
   ''
-  "Items found in RAW : $($items.Count)"
+  "Source             : $sourceName"
+  "Items found        : $($items.Count)"
   "Updated rows       : $updated"
   "Appended rows      : $appended"
   "Skipped items      : $skipped"
@@ -347,4 +402,8 @@ finally {
   if ($wb) { $wb.Close($false) }
   $xl.Quit()
   [System.Runtime.InteropServices.Marshal]::ReleaseComObject($xl) | Out-Null
+  # Drop the remaining sheet references too, so the hidden Excel process exits now.
+  $ur = $null; $cu = $null; $raw = $null; $craft = $null; $wb = $null; $xl = $null
+  [GC]::Collect(); [GC]::WaitForPendingFinalizers()
+  [GC]::Collect(); [GC]::WaitForPendingFinalizers()
 }
