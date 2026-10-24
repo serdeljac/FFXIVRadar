@@ -5,10 +5,9 @@
 ## Fixes
 
 1. **timers:** rename `start_sets` → `start_set` and `end_sets` → `end_set` to match the schema.
-2. **timers:** `active_sets` isn't in the schema. Remove the column.
-3. **expansions:** `version` for `sbs` (Shadowbringers) is 6.58. It should probably be 5.58.
-4. **expansions:** format the `version` column as Text. All 7 are numbers, so `ecd` shows 8 instead of 8.00.
-5. **subareas:** delete the 405 empty rows under the data.
+2. **expansions:** `version` for `sbs` (Shadowbringers) is 6.58. It should probably be 5.58.
+3. **expansions:** format the `version` column as Text. All 7 are numbers, so `ecd` shows 8 instead of 8.00.
+4. **subareas:** delete the 405 empty rows under the data.
 
 ## Suggestions
 
